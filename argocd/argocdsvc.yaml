@@ -2,7 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    labels:
+    alb.ingress.kubernetes.io/backend-protocol-version: HTTPS #This tells AWS to send traffic from the ALB using HTTP2. Can use GRPC as well if you want to leverage GRPC specific features
+  labels:
     app: argogrpc
   name: argogrpc
   namespace: argocd
