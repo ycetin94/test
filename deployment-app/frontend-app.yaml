@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-app
+      io.kompose.network/app-network: "true"
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+        io.kompose.network/app-network: "true"
+    spec:
+      containers:
+        - args:
+            - npm
+            - start
+          image: 781017761620.dkr.ecr.us-east-1.amazonaws.com/mern-repo:frontend-build-18
+          name: frontend-app
+          imagePullPolicy: Always
+          resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+          - name: regcred  
+      

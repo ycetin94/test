@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: backend-app
+      io.kompose.network/app-network: "true"
+  template:
+    metadata:
+      labels:
+        name: backend-app
+        io.kompose.network/app-network: "true"
+    spec:
+      containers:
+        - args:
+            - npm
+            - run
+            - server
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: JWT_SECRET
+                  name: env
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_URI
+                  name: env
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  key: NODE_ENV
+                  name: env
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: PORT
+                  name: env
+          image: 781017761620.dkr.ecr.us-east-1.amazonaws.com/mern-repo:backend-build-18
+          name: backend-app
+          imagePullPolicy: Always
+          resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+        ports:
+        - containerPort: 5000 
+      imagePullSecrets:
+          - name: regcred         
+     
