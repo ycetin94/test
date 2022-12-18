@@ -14,7 +14,7 @@ metadata:
     #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-  - host: argocd.yusuf-cetin.com
+  - host: argocd.ycproject.click
     http:
       paths:
       - path: /
