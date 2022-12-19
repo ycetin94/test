@@ -1,18 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-app 
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o wert
+    kompose.version: 1.27.0 (HEAD)
+  labels:
+    io.kompose.service: server
+  name: server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: backend-app
-      io.kompose.network/app-network: "true"
+      io.kompose.service: server
+  strategy: {}
   template:
     metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml -o wert
+        kompose.version: 1.27.0 (HEAD)
       labels:
-        name: backend-app
         io.kompose.network/app-network: "true"
+        io.kompose.service: server
     spec:
       containers:
         - args:
@@ -41,17 +49,8 @@ spec:
                   key: PORT
                   name: env
           image: 781017761620.dkr.ecr.us-east-1.amazonaws.com/mern-repo:backend-build-18
-          name: backend-app
-          imagePullPolicy: Always
-          resources:
-      requests:
-        memory: "64Mi"
-        cpu: "250m"
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-        ports:
-        - containerPort: 5000 
+          name: backend-srv
+          ports:
+            - containerPort: 5000
       imagePullSecrets:
-          - name: regcred         
-     
+          - name: regcred
