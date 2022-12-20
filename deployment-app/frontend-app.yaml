@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -f docker-compose.yaml -o wert
     kompose.version: 1.27.0 (HEAD)
   labels:
-    io.kompose.service: client
-  name: client
+    io.kompose.service: frontend-app
+  name: frontend-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: client
+      io.kompose.service: frontend-app
   strategy: {}
   template:
     metadata:
@@ -20,13 +20,13 @@ spec:
         kompose.version: 1.27.0 (HEAD)
       labels:
         io.kompose.network/app-network: "true"
-        io.kompose.service: client
+        io.kompose.service: frontend-app
     spec:
       containers:
         - args:
             - npm
             - start
-          image: 781017761620.dkr.ecr.us-east-1.amazonaws.com/mern-repo:frontend-build-18
+          image: 781017761620.dkr.ecr.us-east-1.amazonaws.com/mern-repo:frontend-build-1
           name: frontend-app
           ports:
             - containerPort: 3000
